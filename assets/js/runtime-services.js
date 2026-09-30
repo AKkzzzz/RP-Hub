@@ -353,7 +353,6 @@
             getUncachedInputTokens,
             latestMainTokenUsage,
             recordApiUsage,
-            saveTokenUsageHistoryNow,
             showTokenUsageTimeFilter,
             tokenUsageFilter,
             tokenUsageHistory,
