@@ -1445,7 +1445,19 @@ const app = createApp({
 
         // Square State
         const isSquareLoading = ref(true);
-        const squareUrl = ref('https://rphforum.zeabur.app/');
+        const squareSources = window.RPHUB_SITE.squareSources.map(source => ({
+            ...source, url: new URL(source.url, location.href).href
+        }));
+        const squareSourceId = ref(squareSources[0].id);
+        const squareUrl = ref(squareSources[0].url);
+        const refreshSquare = () => {
+            const source = squareSources.find(item => item.id === squareSourceId.value) || squareSources[0];
+            const url = new URL(source.url);
+            url.searchParams.set('t', Date.now());
+            isSquareLoading.value = true;
+            squareUrl.value = url.href;
+        };
+        watch(squareSourceId, refreshSquare);
 
         const onSquareLoad = () => {
             isSquareLoading.value = false;
@@ -1515,7 +1527,7 @@ const app = createApp({
                 generatorUrl.value = `./character/index.html?t=${Date.now()}`;
             } else if (newView === 'square') {
                 isSquareLoading.value = true;
-                squareUrl.value = `https://rphforum.zeabur.app/?t=${Date.now()}`;
+                refreshSquare();
             } else if (newView === 'novel') {
                 isNovelLoading.value = true;
                 novelUrl.value = `./novel/index.html?t=${Date.now()}`;
@@ -8226,7 +8238,7 @@ const app = createApp({
             chatRoundStats, conversationBodyLength, summaryCompressedBodyLength, summaryCompressionRate,
             editingCharacter, editingPreset, editingUiTemplate, toasts, chatContainer, isChatFullscreen, isMobileKeyboardOpen, inputBox, messageElements,
             isGeneratorLoading, generatorUrl, onGeneratorLoad, // Generator exports
-            isSquareLoading, squareUrl, onSquareLoad, // Square exports
+            isSquareLoading, squareUrl, onSquareLoad, squareSources, squareSourceId, // Square exports
             isNovelLoading, novelUrl, onNovelLoad, // Novel exports
             editorTab, characterDisplayLimit, hasOpenedCharacterManager, isDesktopCharacterLayout, characterGridView, characterDeck, useCharacterDeck, displayedCharacters, loadMoreCharacters, getCharacterWICount, getCharacterRegexCount,
             isAutoImageGenEnabled,

@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 
 <head>
+    <script src="assets/js/site-config.js?v=20261005"></script>
     <meta charset="UTF-8">
     <script src="assets/js/theme.js"></script>
     <meta name="viewport"
@@ -1212,6 +1213,13 @@
 
             <!-- Square View -->
             <div v-if="currentView === 'square'" class="h-full overflow-hidden flex flex-col bg-gray-50 relative">
+                <div id="rphub-square-sources" class="flex flex-wrap items-center gap-2 px-3 py-2 border-b bg-white text-sm">
+                    <button v-for="source in squareSources" :key="source.id" @click="squareSourceId = source.id"
+                        :aria-pressed="squareSourceId === source.id" class="px-3 py-2 rounded-lg font-medium"
+                        :class="squareSourceId === source.id ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'">{{ source.label }}</button>
+                    <a :href="squareUrl" target="_blank" rel="noopener" class="ml-auto text-gray-500 px-2 py-2">单独打开 ↗</a>
+                    <span class="w-full text-xs text-gray-500">浏览社区角色卡，导入后即可开始对话</span>
+                </div>
                 <embedded-view-content :src="squareUrl" :loading="isSquareLoading"
                     loading-text="加载万相广场中..." @menu="toggleNavigation" @load="onSquareLoad">
                 </embedded-view-content>
@@ -2721,6 +2729,8 @@
         document.write('<script src="assets/js/ui-components.js?v=' + new Date().getTime() + '"><\/script>');
         document.write('<script src="assets/js/app.js?v=' + new Date().getTime() + '"><\/script>');
     </script>
+<div id="rphub-source-credit" style="position:fixed;bottom:2px;left:8px;z-index:20;font-size:10px;color:#64748b"><a href="https://github.com/STA1N156/RP-Hub" target="_blank" rel="noopener">RP-Hub · STA1N156</a> · <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a> · 已作接入修改</div>
+<script src="assets/js/cloud-sync.js?v=20261005"></script>
 </body>
 
 </html>
